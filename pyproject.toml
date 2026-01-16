@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agents-ide"
+version = "0.1.0"
+description = "AI-powered IDE tools via MCP - shared LSP daemon with code navigation, refactoring, and analysis"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [
+    { name = "Ofek Ron", email = "ofekron@users.noreply.github.com" }
+]
+keywords = ["mcp", "lsp", "ide", "ai", "agents", "refactoring", "code-analysis"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+    "aiohttp>=3.9.0",
+    "aiofiles>=23.0.0",
+    "mcp>=1.0.0",
+    "toon>=0.1.0",
+    "requests>=2.31.0",
+    "radon>=6.0.0",
+    "vulture>=2.10",
+    "rope>=1.11.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[project.scripts]
+agents-ide = "agents_ide.mcp:main"
+agents-ide-daemon = "agents_ide.manager:main"
+
+[project.urls]
+Homepage = "https://github.com/ofekron/agents-ide"
+Repository = "https://github.com/ofekron/agents-ide"
+Issues = "https://github.com/ofekron/agents-ide/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["agents_ide"]
