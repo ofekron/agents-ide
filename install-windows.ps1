@@ -198,6 +198,48 @@ if (Test-Path $claudeSettings) {
     }
 }
 
+# Step 6: Install Skill Documentation
+Write-Step "Step 6: Install Skill Documentation"
+Write-Host ""
+Write-Host "The agents-ide skill provides usage guides for Claude Code."
+Write-Host ""
+
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$skillSource = Join-Path $scriptDir "skill"
+
+if (Test-Path $skillSource) {
+    Write-Host "Install location options:" -ForegroundColor White
+    Write-Host "  1) Global (~\.claude\skills\agents-ide-usage\)"
+    Write-Host "  2) Current project (.claude\skills\agents-ide-usage\)"
+    Write-Host "  3) Skip"
+    Write-Host ""
+    $skillLocation = Ask-User "Choose install location" "1"
+
+    switch ($skillLocation) {
+        "1" {
+            $skillDest = "$env:USERPROFILE\.claude\skills\agents-ide-usage"
+            if (!(Test-Path $skillDest)) {
+                New-Item -ItemType Directory -Path $skillDest -Force | Out-Null
+            }
+            Copy-Item -Path "$skillSource\*" -Destination $skillDest -Recurse -Force
+            Write-Success "Skill installed to $skillDest"
+        }
+        "2" {
+            $skillDest = ".claude\skills\agents-ide-usage"
+            if (!(Test-Path $skillDest)) {
+                New-Item -ItemType Directory -Path $skillDest -Force | Out-Null
+            }
+            Copy-Item -Path "$skillSource\*" -Destination $skillDest -Recurse -Force
+            Write-Success "Skill installed to $skillDest"
+        }
+        default {
+            Write-Host "Skipping skill installation."
+        }
+    }
+} else {
+    Write-Warning "Skill folder not found in package"
+}
+
 # Done
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Green

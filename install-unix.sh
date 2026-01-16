@@ -158,6 +158,42 @@ EOF
     fi
 fi
 
+# Step 6: Install Skill Documentation
+echo ""
+echo -e "${BOLD}Step 6: Install Skill Documentation${NC}"
+echo ""
+echo "The agents-ide skill provides usage guides for Claude Code."
+echo ""
+skill_source="$(dirname "$0")/skill"
+if [ -d "$skill_source" ]; then
+    echo "Install location options:"
+    echo "  1) Global (~/.claude/skills/agents-ide-usage/)"
+    echo "  2) Current project (.claude/skills/agents-ide-usage/)"
+    echo "  3) Skip"
+    echo ""
+    skill_location=$(ask "Choose install location" "1")
+
+    case "$skill_location" in
+        1)
+            skill_dest="$HOME/.claude/skills/agents-ide-usage"
+            mkdir -p "$skill_dest"
+            cp -r "$skill_source"/* "$skill_dest/"
+            echo -e "${GREEN}✓ Skill installed to $skill_dest${NC}"
+            ;;
+        2)
+            skill_dest=".claude/skills/agents-ide-usage"
+            mkdir -p "$skill_dest"
+            cp -r "$skill_source"/* "$skill_dest/"
+            echo -e "${GREEN}✓ Skill installed to $skill_dest${NC}"
+            ;;
+        *)
+            echo "Skipping skill installation."
+            ;;
+    esac
+else
+    echo -e "${YELLOW}⚠ Skill folder not found in package${NC}"
+fi
+
 # Done
 echo ""
 echo -e "${BOLD}${GREEN}════════════════════════════════════════${NC}"
