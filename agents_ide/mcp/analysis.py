@@ -43,13 +43,16 @@ async def dependencies(filePath: str) -> str:
 @mcp.tool()
 async def duplicates(filePath: str, minLines: int = 6) -> str:
     """
-    Find duplicate code blocks in a Python file.
+    Find duplicate code blocks across the codebase.
 
     Args:
-        filePath: Absolute path to the Python file
+        filePath: Directory to scan (or file path - will scan its parent directory)
         minLines: Minimum lines for a duplicate block (default: 6)
     """
-    result = await http_post("duplicates", {"filePath": filePath, "minLines": minLines})
+    import os
+    # If given a file, use its directory
+    directory = filePath if os.path.isdir(filePath) else os.path.dirname(filePath)
+    result = await http_post("duplicates", {"directory": directory, "minLines": minLines})
     return format_result(result)
 
 
