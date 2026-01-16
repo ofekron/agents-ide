@@ -14,14 +14,38 @@ A shared LSP daemon with MCP bridge that allows AI agents to use IDE tools like 
 
 ## Installation
 
+### Quick Install (Recommended)
+
+Clone and run the install script:
+
 ```bash
-pip install agents-ide
+git clone https://github.com/ofekron/agents-ide.git
+cd agents-ide
 ```
 
-### Requirements
+**macOS / Linux:**
+```bash
+./install-unix.sh
+```
 
+**Windows (PowerShell):**
+```powershell
+powershell -ExecutionPolicy Bypass -File install-windows.ps1
+```
+
+### Manual Install
+
+**Requirements:**
 - Python 3.11+
-- Node.js with `pyright` installed globally: `npm install -g pyright`
+- Node.js
+
+```bash
+# Install pyright LSP server
+npm install -g pyright
+
+# Install agents-ide
+pip install agents-ide
+```
 
 ## Usage
 
