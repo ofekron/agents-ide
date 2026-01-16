@@ -107,10 +107,15 @@ def start_daemon(port: int = DEFAULT_PORT) -> bool:
 
     with open(LOG_FILE, "a") as log:
         os.chmod(LOG_FILE, 0o660)
+        # Set PYTHONPATH to include the package root
+        env = os.environ.copy()
+        package_root = str(DAEMON_SCRIPT.parent.parent)
+        env["PYTHONPATH"] = f"{package_root}:{env.get('PYTHONPATH', '')}"
         process = subprocess.Popen(
             [sys.executable, str(DAEMON_SCRIPT), "--port", str(port)],
             stdout=log,
             stderr=log,
+            env=env,
             start_new_session=True,  # Detach from parent
         )
 

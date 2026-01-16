@@ -74,7 +74,7 @@ from typing import Any
 from aiohttp import web
 
 # Shared LSP client
-from agents_ide_lsp import (
+from agents_ide.lsp import (
     LSPClient,
     format_symbol,
     format_location,
@@ -84,7 +84,7 @@ from agents_ide_lsp import (
 )
 
 # Action history for reverting changes
-from agents_ide_history import get_history, ActionHistory
+from agents_ide.history import get_history, ActionHistory
 
 
 class AgentsIDEDaemon:
